@@ -1,0 +1,147 @@
+{
+  "timestamp": "2026-07-17T05:06:02.360150+00:00",
+  "corpora": [
+    "malicious",
+    "typosquat",
+    "hallucinated",
+    "benign"
+  ],
+  "total_records": 179,
+  "errors": 0,
+  "metrics": {
+    "per_attack_type": {
+      "dependency_hijack": {
+        "TP": 1,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "ERROR": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "install_script_exec": {
+        "TP": 2,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "ERROR": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "account_takeover": {
+        "TP": 20,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "ERROR": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "protestware": {
+        "TP": 5,
+        "FP": 0,
+        "TN": 0,
+        "FN": 2,
+        "ERROR": 0,
+        "precision": 1.0,
+        "recall": 0.7143,
+        "f1": 0.8333
+      },
+      "typosquat": {
+        "TP": 52,
+        "FP": 0,
+        "TN": 0,
+        "FN": 5,
+        "ERROR": 0,
+        "precision": 1.0,
+        "recall": 0.9123,
+        "f1": 0.9541
+      },
+      "credential_theft": {
+        "TP": 3,
+        "FP": 0,
+        "TN": 0,
+        "FN": 5,
+        "ERROR": 0,
+        "precision": 1.0,
+        "recall": 0.375,
+        "f1": 0.5455
+      },
+      "worm_propagation": {
+        "TP": 6,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "ERROR": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "ci_pipeline_compromise": {
+        "TP": 5,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "ERROR": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "none": {
+        "TP": 18,
+        "FP": 0,
+        "TN": 50,
+        "FN": 5,
+        "ERROR": 0,
+        "precision": 1.0,
+        "recall": 0.7826,
+        "f1": 0.878
+      }
+    },
+    "overall": {
+      "TP": 112,
+      "FP": 0,
+      "TN": 50,
+      "FN": 17,
+      "ERROR": 0,
+      "precision": 1.0,
+      "recall": 0.8682,
+      "f1": 0.9295,
+      "false_positive_rate": 0.0
+    },
+    "confusion_matrix": {
+      "malicious": {
+        "ALLOW": 12,
+        "WARN": 20,
+        "BLOCK": 24,
+        "ERROR": 0
+      },
+      "typosquat": {
+        "ALLOW": 0,
+        "WARN": 30,
+        "BLOCK": 20,
+        "ERROR": 0
+      },
+      "hallucinated": {
+        "ALLOW": 5,
+        "WARN": 1,
+        "BLOCK": 17,
+        "ERROR": 0
+      },
+      "benign": {
+        "ALLOW": 50,
+        "WARN": 0,
+        "BLOCK": 0,
+        "ERROR": 0
+      }
+    },
+    "latency": {
+      "n_samples": 179,
+      "median_ms": 4016.6,
+      "p95_ms": 8409.6
+    }
+  }
+}

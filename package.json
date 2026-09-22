@@ -1,0 +1,34 @@
+{
+  "name": "cidas",
+  "version": "1.0.0",
+  "description": "A VS Code extension paired with a local Python daemon that screens npm packages **before** they are installed, catching typosquatting, malware, AI-hallucinated packages, and prompt injection in real time. Distribution is a transparent `npm` shim, with team-wide policy carried in the repo via `.cidas/policy.json`.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanvihs-05/CIDAS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sanvihs-05/CIDAS/issues"
+  },
+  "homepage": "https://github.com/sanvihs-05/CIDAS#readme",
+  "dependencies": {
+    "coa": "^2.0.2",
+    "event-stream": "^4.0.1",
+    "express": "^5.2.1",
+    "faker": "^6.6.6",
+    "flatmap-stream": "^0.0.1-security",
+    "lodahs": "^0.0.1-security",
+    "lodash": "^4.18.1",
+    "node-ipc": "^12.0.0"
+  }
+}

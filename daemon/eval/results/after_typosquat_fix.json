@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-07-16T07:01:09.614295+00:00",
+  "corpora": [
+    "typosquat"
+  ],
+  "total_records": 50,
+  "errors": 0,
+  "metrics": {
+    "per_attack_type": {
+      "typosquat": {
+        "TP": 50,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "ERROR": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    },
+    "overall": {
+      "TP": 50,
+      "FP": 0,
+      "TN": 0,
+      "FN": 0,
+      "ERROR": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0
+    },
+    "confusion_matrix": {
+      "typosquat": {
+        "ALLOW": 0,
+        "WARN": 30,
+        "BLOCK": 20,
+        "ERROR": 0
+      }
+    },
+    "latency": {
+      "n_samples": 50,
+      "median_ms": 9569.55,
+      "p95_ms": 14295.5
+    }
+  }
+}

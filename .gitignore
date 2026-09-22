@@ -1,0 +1,46 @@
+# Environment
+.env
+*.env.local
+.claude
+.vscode
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+.guarddog-venv/
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# CIDAS runtime artefacts
+.cidas_cache.db
+.cidas_chroma/
+
+# Node / VS Code extension
+node_modules/
+out/
+*.vsix
+*.js.map
+extension/out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+
+# Generated coverage reports, runtime logs, pid files
+coverage/
+.coverage
+*.log
+*.pid
+.cidas.pid

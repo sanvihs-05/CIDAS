@@ -1,0 +1,94 @@
+{
+  "additionalProperties": false,
+  "description": "Project policy schema \u2014 version 1.\n\nUnknown fields raise ``ValidationError`` so a misspelled key (``trustList``\ninstead of ``trust_list``, ``blocklist`` instead of ``block_list``) fails\nloudly at load time rather than silently doing nothing.",
+  "properties": {
+    "version": {
+      "const": 1,
+      "default": 1,
+      "title": "Version",
+      "type": "integer"
+    },
+    "block_list": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Block List",
+      "type": "array"
+    },
+    "trust_list": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Trust List",
+      "type": "array"
+    },
+    "min_monthly_downloads": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Min Monthly Downloads"
+    },
+    "max_sentinel_distance": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Max Sentinel Distance"
+    },
+    "require_repository_link": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Require Repository Link"
+    },
+    "contextify_weight": {
+      "anyOf": [
+        {
+          "maximum": 0.5,
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Contextify Weight"
+    },
+    "warn_requires_confirmation": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "When true, the npm shim must prompt the developer to type 'proceed' before any WARN install proceeds (interactive TTY only).  Surfaced to the shim via ScanResponse.requires_confirmation.",
+      "title": "Warn Requires Confirmation"
+    }
+  },
+  "title": "CIDAS Project Policy",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

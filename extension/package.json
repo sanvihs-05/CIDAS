@@ -1,0 +1,62 @@
+{
+  "name": "cidas",
+  "displayName": "CIDAS Security",
+  "description": "Pre-install npm package security screening powered by a local AI daemon.",
+  "version": "0.1.0",
+  "publisher": "cidas",
+  "engines": { "vscode": "^1.89.0" },
+  "categories": ["Other", "Linters"],
+  "activationEvents": ["onStartupFinished"],
+  "enabledApiProposals": ["terminalDataWriteEvent"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "cidas.scanPackage",
+        "title": "CIDAS: Scan npm Package"
+      },
+      {
+        "command": "cidas.openDashboard",
+        "title": "CIDAS: Open Dashboard"
+      },
+      {
+        "command": "cidas.clearCache",
+        "title": "CIDAS: Clear Scan Cache"
+      }
+    ],
+    "configuration": {
+      "title": "CIDAS",
+      "properties": {
+        "cidas.daemonPort": {
+          "type": "number",
+          "default": 7355,
+          "description": "Port the CIDAS local daemon is listening on."
+        },
+        "cidas.autoScan": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically scan packages when package.json changes are detected."
+        },
+        "cidas.blockInstalls": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a blocking dialog when a package is flagged as high risk."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "vitest run",
+    "build": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --platform=node --target=node20"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.89.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0",
+    "@vitest/coverage-v8": "^1.6.0",
+    "esbuild": "^0.21.0"
+  }
+}

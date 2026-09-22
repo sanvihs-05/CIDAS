@@ -1,0 +1,23 @@
+{"package_name":"react-query-utils","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible utility extension of react-query"}
+{"package_name":"express-middleware-chain","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Sounds like a middleware composition helper"}
+{"package_name":"lodash-async","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible async-aware lodash variant"}
+{"package_name":"axios-retry-handler","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible retry middleware for axios"}
+{"package_name":"webpack-config-helper","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible webpack config builder"}
+{"package_name":"typescript-types-resolver","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible TS namespace resolver"}
+{"package_name":"moment-timezone-converter","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible moment-timezone adjunct"}
+{"package_name":"chalk-rainbow-formatter","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible rainbow text helper"}
+{"package_name":"commander-prompt-builder","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible interactive prompt extension"}
+{"package_name":"uuid-namespace-helper","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible namespace-id helper"}
+{"package_name":"react-state-hooks","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible hooks library name"}
+{"package_name":"express-validator-async","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible async wrapper of express-validator"}
+{"package_name":"lodash-deep-merger","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible deep-merge utility"}
+{"package_name":"axios-cache-middleware","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible response cache for axios"}
+{"package_name":"webpack-plugin-loader","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible plugin discovery helper"}
+{"package_name":"node-stream-utils","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible Node stream helper bundle"}
+{"package_name":"fastify-cors-helper","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible cors plugin for fastify"}
+{"package_name":"nest-auth-decorator","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible NestJS auth decorator"}
+{"package_name":"mongoose-soft-delete-plugin","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible soft-delete plugin"}
+{"package_name":"typeorm-migration-runner","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible CLI runner for TypeORM migrations"}
+{"package_name":"socket-io-cluster-adapter","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible cluster adapter for socket.io"}
+{"package_name":"jest-mock-factory","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible test mock helper"}
+{"package_name":"prettier-config-resolver","version":"latest","ai_suggested":true,"ground_truth":"hallucinated","attack_type":"none","source":"synthetic","notes":"Plausible prettier config locator"}

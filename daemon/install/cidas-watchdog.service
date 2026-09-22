@@ -1,0 +1,19 @@
+# CIDAS daemon watchdog (Linux systemd user unit).
+# Installed under ~/.config/systemd/user/ so it starts on user login.
+# Run `loginctl enable-linger $USER` if you want it to persist after logout.
+# __WATCHDOG_PATH__ is substituted by daemon/install/install.sh.
+
+[Unit]
+Description=CIDAS Daemon Watchdog
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash __WATCHDOG_PATH__
+Restart=always
+RestartSec=10
+StandardOutput=append:%h/.cidas/daemon.log
+StandardError=append:%h/.cidas/daemon.log
+
+[Install]
+WantedBy=default.target

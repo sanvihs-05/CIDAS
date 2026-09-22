@@ -1,0 +1,19 @@
+{
+  "name": "cidas-shim-tests",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Jest tests for the CIDAS npm shim",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "npm-shim.js"
+    ]
+  }
+}

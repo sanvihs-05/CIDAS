@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  CIDAS daemon watchdog (macOS launchd agent).
+  Loaded into LaunchAgents so it runs at user login. KeepAlive ensures the
+  watchdog itself is restarted if it ever exits.
+  __WATCHDOG_PATH__ and __HOME__ are substituted by daemon/install/install.sh.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.cidas.watchdog</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>__WATCHDOG_PATH__</string>
+  </array>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>ThrottleInterval</key>
+  <integer>10</integer>
+
+  <key>StandardOutPath</key>
+  <string>__HOME__/.cidas/daemon.log</string>
+
+  <key>StandardErrorPath</key>
+  <string>__HOME__/.cidas/daemon.log</string>
+
+  <key>WorkingDirectory</key>
+  <string>__HOME__</string>
+</dict>
+</plist>

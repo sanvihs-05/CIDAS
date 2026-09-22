@@ -1,0 +1,71 @@
+{
+  "timestamp": "2026-07-16T10:11:36.556051+00:00",
+  "tool": "guarddog",
+  "corpora": [
+    "malicious",
+    "typosquat",
+    "hallucinated",
+    "benign"
+  ],
+  "total_records": 162,
+  "completion_rate": 0.0185,
+  "error_reasons": {
+    "download-package": 74,
+    "other": 85
+  },
+  "metrics": {
+    "per_ground_truth": {
+      "malicious": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "ERROR": 39,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "typosquat": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "ERROR": 50,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "hallucinated": {
+        "TP": 0,
+        "FP": 0,
+        "TN": 0,
+        "FN": 0,
+        "ERROR": 23,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "benign": {
+        "TP": 0,
+        "FP": 2,
+        "TN": 1,
+        "FN": 0,
+        "ERROR": 47,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    },
+    "overall": {
+      "TP": 0,
+      "FP": 2,
+      "TN": 1,
+      "FN": 0,
+      "ERROR": 159,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "false_positive_rate": 0.6667
+    }
+  }
+}

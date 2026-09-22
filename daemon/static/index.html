@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CIDAS Dashboard</title>
+<style>
+:root {
+  --bg:      #1e1e1e;
+  --bg-2:    #252526;
+  --bg-3:    #2d2d30;
+  --border:  #3e3e42;
+  --text:    #d4d4d4;
+  --dim:     #858585;
+  --accent:  #0e7ac4;
+  --hover:   #1a8ad4;
+  --allow:   #4ec9b0;
+  --warn:    #dcdcaa;
+  --block:   #f44747;
+  --r:       4px;
+  --font:    -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono:    'Cascadia Code', 'Fira Code', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 13px; min-height: 100vh; }
+
+/* ── Header ── */
+.hdr { background: var(--bg-2); border-bottom: 1px solid var(--border); padding: 10px 20px; display: flex; align-items: center; gap: 14px; }
+.hdr h1 { font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; }
+.badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: var(--bg-3); color: var(--dim); }
+.badge.ok  { background: #1e3a2f; color: var(--allow); }
+.badge.err { background: #3a1e1e; color: var(--block); }
+.tok-row { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.tok-row label { font-size: 11px; color: var(--dim); }
+.tok-row input { width: 240px; background: var(--bg-3); border: 1px solid var(--border); border-radius: var(--r); color: var(--text); font-family: var(--mono); font-size: 11px; padding: 4px 8px; outline: none; }
+.tok-row input:focus { border-color: var(--accent); }
+
+/* ── Tabs ── */
+.tabs { background: var(--bg-2); border-bottom: 1px solid var(--border); display: flex; padding: 0 20px; gap: 2px; }
+.tab { background: none; border: none; border-bottom: 2px solid transparent; color: var(--dim); cursor: pointer; font-family: var(--font); font-size: 12px; padding: 8px 14px; transition: color .15s; }
+.tab:hover { color: var(--text); }
+.tab.on { border-bottom-color: var(--accent); color: var(--text); }
+
+/* ── Layout ── */
+.page { padding: 20px; max-width: 1200px; }
+.panel { display: none; }
+.panel.on { display: block; }
+
+/* ── Cards ── */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.card { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 16px; }
+.card .lbl { font-size: 11px; color: var(--dim); margin-bottom: 6px; }
+.card .val { font-size: 26px; font-weight: 600; }
+.card .val.a { color: var(--allow); } .card .val.w { color: var(--warn); } .card .val.b { color: var(--block); }
+
+/* ── Section heading ── */
+.sh { font-size: 11px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; color: var(--dim); margin: 20px 0 10px; }
+.sh:first-child { margin-top: 0; }
+
+/* ── Table ── */
+.tbl-wrap { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r); overflow: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { background: var(--bg-3); border-bottom: 1px solid var(--border); color: var(--dim); font-size: 11px; font-weight: 600; letter-spacing: .5px; padding: 7px 12px; text-align: left; white-space: nowrap; }
+td { border-bottom: 1px solid var(--border); padding: 7px 12px; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,.03); }
+
+/* ── Badges ── */
+.vb { border-radius: 3px; display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .5px; padding: 2px 7px; }
+.vA { background: #1e3a2f; color: var(--allow); }
+.vW { background: #3a3a1e; color: var(--warn); }
+.vB { background: #3a1e1e; color: var(--block); }
+.mac-ok  { color: var(--allow); } .mac-bad { color: var(--block); } .mac-leg { color: var(--warn); }
+
+/* ── Forms ── */
+.fg { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r); display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); padding: 16px; }
+.f  { display: flex; flex-direction: column; gap: 5px; }
+.f label { font-size: 11px; color: var(--dim); }
+input[type=text], input[type=date], select {
+  background: var(--bg-3); border: 1px solid var(--border); border-radius: var(--r);
+  color: var(--text); font-family: var(--font); font-size: 12px; padding: 6px 10px; outline: none; width: 100%;
+}
+input:focus, select:focus { border-color: var(--accent); }
+select option { background: var(--bg-3); }
+.cr { align-items: center; flex-direction: row; gap: 8px; }
+.cr input { width: auto; }
+
+/* ── Buttons ── */
+.btn  { background: var(--accent); border: none; border-radius: var(--r); color: #fff; cursor: pointer; font-family: var(--font); font-size: 12px; font-weight: 500; padding: 7px 16px; transition: background .15s; white-space: nowrap; }
+.btn:hover { background: var(--hover); }
+.btn:disabled { background: var(--bg-3); color: var(--dim); cursor: default; }
+.btng { background: transparent; border: 1px solid var(--border); border-radius: var(--r); color: var(--text); cursor: pointer; font-family: var(--font); font-size: 12px; padding: 6px 14px; transition: border-color .15s; }
+.btng:hover { border-color: var(--accent); color: var(--accent); }
+.btnd { background: transparent; border: 1px solid #6b2020; border-radius: var(--r); color: var(--block); cursor: pointer; font-family: var(--font); font-size: 12px; padding: 6px 14px; }
+.btnd:hover { background: #3a1e1e; }
+.ar { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+
+/* ── Messages ── */
+.msg { border-radius: var(--r); font-size: 12px; padding: 8px 12px; margin-top: 10px; }
+.me { background: #3a1e1e; border: 1px solid #6b2020; color: #f88; }
+.mo { background: #1e3a2f; border: 1px solid #1e6b3a; color: #7f7; }
+
+/* ── Scan result ── */
+.sr { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r); margin-top: 14px; padding: 16px; }
+.sr .pkg { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+.sr .mr  { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+.sr .ex  { color: var(--dim); font-size: 12px; margin-bottom: 12px; }
+.sr .ps  { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+.pillar  { background: var(--bg-3); border-radius: var(--r); padding: 10px 12px; }
+.pillar .pn { font-size: 10px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; color: var(--dim); margin-bottom: 4px; }
+.pillar .pv { font-size: 22px; font-weight: 600; }
+.pillar .pf { font-size: 11px; color: var(--dim); margin-top: 4px; }
+.ft { background: var(--bg-3); border-radius: 3px; display: inline-block; font-size: 10px; margin: 1px 2px; padding: 1px 6px; color: var(--dim); }
+
+/* ── Chart ── */
+.cw { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; }
+
+/* ── Raw JSON ── */
+.raw { background: var(--bg-3); border: 1px solid var(--border); border-radius: var(--r); font-family: var(--mono); font-size: 11px; line-height: 1.6; margin-top: 12px; max-height: 380px; overflow: auto; padding: 14px; white-space: pre-wrap; word-break: break-all; }
+details summary { cursor: pointer; font-size: 11px; color: var(--dim); margin-top: 12px; }
+
+/* ── Misc ── */
+.empty { color: var(--dim); font-size: 12px; padding: 20px; text-align: center; }
+code { font-family: var(--mono); font-size: 11px; }
+.spin { display: inline-block; width: 13px; height: 13px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: sp .7s linear infinite; vertical-align: middle; margin-right: 5px; }
+@keyframes sp { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>⬡ CIDAS</h1>
+  <span class="badge" id="hbadge">connecting…</span>
+  <div class="tok-row">
+    <label for="tok">Token</label>
+    <input id="tok" type="password" placeholder="paste ~/.cidas/daemon.token" autocomplete="off">
+    <button class="btn" onclick="saveToken()">Save</button>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab on"  onclick="sw('overview',this)">Overview</button>
+  <button class="tab"     onclick="sw('audit',this)">Audit Log</button>
+  <button class="tab"     onclick="sw('trust',this)">Trust List</button>
+  <button class="tab"     onclick="sw('scan',this)">Scan Package</button>
+  <button class="tab"     onclick="sw('cache',this)">Cache</button>
+</div>
+
+<div class="page">
+
+  <!-- Overview -->
+  <div id="p-overview" class="panel on">
+    <div class="cards">
+      <div class="card"><div class="lbl">Total scans</div><div class="val"  id="ov-tot">—</div></div>
+      <div class="card"><div class="lbl">ALLOW</div>      <div class="val a" id="ov-a">—</div></div>
+      <div class="card"><div class="lbl">WARN</div>       <div class="val w" id="ov-w">—</div></div>
+      <div class="card"><div class="lbl">BLOCK</div>      <div class="val b" id="ov-b">—</div></div>
+      <div class="card"><div class="lbl">Trusted pkgs</div><div class="val" id="ov-t">—</div></div>
+    </div>
+    <div class="sh">Verdict distribution (last 200 scans)</div>
+    <div class="cw"><svg id="vchart" width="100%" height="90"></svg></div>
+    <div class="sh">Recent activity</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Time</th><th>Package</th><th>Verdict</th><th>Score</th><th>Signals</th><th>Cached</th></tr></thead>
+        <tbody id="rec-body"><tr><td colspan="6" class="empty"><span class="spin"></span>Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Audit Log -->
+  <div id="p-audit" class="panel">
+    <div class="sh">Filters</div>
+    <div class="fg" style="margin-bottom:14px">
+      <div class="f"><label>Verdict</label>
+        <select id="af-v"><option value="">All</option><option>ALLOW</option><option>WARN</option><option>BLOCK</option></select>
+      </div>
+      <div class="f"><label>Package</label><input id="af-p" type="text" placeholder="e.g. lodash"></div>
+      <div class="f"><label>Since</label><input id="af-s" type="date"></div>
+      <div class="f"><label>Max</label>
+        <select id="af-l"><option>25</option><option>50</option><option selected>100</option><option>500</option></select>
+      </div>
+      <div class="f ar">
+        <button class="btn"  onclick="loadAudit()">Apply</button>
+        <button class="btng" onclick="clearAudit()">Clear</button>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Timestamp</th><th>Package</th><th>Verdict</th><th>Score</th><th>Signals</th><th>AI</th><th>Cached</th></tr></thead>
+        <tbody id="aud-body"><tr><td colspan="7" class="empty">Set filters and click Apply.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Trust List -->
+  <div id="p-trust" class="panel">
+    <div class="sh">Add package</div>
+    <div class="fg" style="margin-bottom:6px">
+      <div class="f"><label>Package name</label><input id="tr-pkg" type="text" placeholder="e.g. my-internal-lib"></div>
+      <div class="f ar">
+        <button class="btn"  onclick="addTrust()">Trust</button>
+        <button class="btng" onclick="loadTrust()">↻ Refresh</button>
+      </div>
+    </div>
+    <div id="tr-msg"></div>
+    <div class="sh">Trusted packages</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Package</th><th>Added</th><th>Source</th><th>MAC status</th><th>Verification</th></tr></thead>
+        <tbody id="tr-body"><tr><td colspan="5" class="empty"><span class="spin"></span>Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <div id="tr-sum" style="margin-top:8px;font-size:11px;color:var(--dim)"></div>
+  </div>
+
+  <!-- Scan Package -->
+  <div id="p-scan" class="panel">
+    <div class="sh">Scan a package</div>
+    <div class="fg">
+      <div class="f"><label>Package name *</label><input id="sc-pkg" type="text" placeholder="e.g. lodash"></div>
+      <div class="f"><label>Version (optional)</label><input id="sc-ver" type="text" placeholder="e.g. 4.17.21"></div>
+      <div class="f"><label>Project path *</label><input id="sc-path" type="text" placeholder="/home/user/myproject"></div>
+      <div class="f ar">
+        <label class="f cr" style="margin:0"><input type="checkbox" id="sc-ai"> AI suggested</label>
+        <button class="btn" id="sc-btn" onclick="runScan()">Scan</button>
+      </div>
+    </div>
+    <div id="sc-out"></div>
+  </div>
+
+  <!-- Cache -->
+  <div id="p-cache" class="panel">
+    <div class="sh">Purge expired entries</div>
+    <div class="fg" style="margin-bottom:6px">
+      <div class="f ar"><button class="btnd" onclick="purgeCache()">Purge expired</button></div>
+    </div>
+    <div id="pu-msg"></div>
+    <div class="sh">Invalidate package</div>
+    <div class="fg">
+      <div class="f"><label>Package name</label><input id="iv-pkg" type="text" placeholder="e.g. lodash"></div>
+      <div class="f"><label>Version (* = all)</label><input id="iv-ver" type="text" placeholder="* or 4.17.21"></div>
+      <div class="f ar"><button class="btnd" onclick="invalidate()">Invalidate</button></div>
+    </div>
+    <div id="iv-msg"></div>
+  </div>
+
+</div>
+
+<script>
+const BASE = 'http://127.0.0.1:7355/api/v1';
+
+// ── Token ─────────────────────────────────────────────────────────────────
+const tok = () => localStorage.getItem('cidas_tok') || '';
+const hdrs = () => ({ 'Authorization': 'Bearer ' + tok(), 'Content-Type': 'application/json' });
+
+function saveToken() {
+  const v = document.getElementById('tok').value.trim();
+  if (!v) return;
+  localStorage.setItem('cidas_tok', v);
+  flash(null, 'Token saved — reloading…', true);
+  setTimeout(() => { checkHealth(); loadOverview(); }, 300);
+}
+
+// ── API ───────────────────────────────────────────────────────────────────
+async function api(method, path, body) {
+  const o = { method, headers: hdrs() };
+  if (body) o.body = JSON.stringify(body);
+  const r = await fetch(BASE + path, o);
+  if (!r.ok) throw new Error(`HTTP ${r.status}: ${await r.text()}`);
+  return r.json();
+}
+
+// ── Health ────────────────────────────────────────────────────────────────
+async function checkHealth() {
+  const b = document.getElementById('hbadge');
+  try {
+    const d = await fetch(BASE + '/health').then(r => r.json());
+    b.textContent = `daemon ${d.version || 'ok'} · up`;
+    b.className = 'badge ok';
+  } catch {
+    b.textContent = 'daemon unreachable';
+    b.className = 'badge err';
+  }
+}
+
+// ── Tabs ──────────────────────────────────────────────────────────────────
+function sw(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.getElementById('p-' + name).classList.add('on');
+  btn.classList.add('on');
+  ({ overview: loadOverview, trust: loadTrust })[name]?.();
+}
+
+// ── Overview ──────────────────────────────────────────────────────────────
+async function loadOverview() {
+  try {
+    const [ad, td] = await Promise.all([api('GET', '/audit?last=200'), api('GET', '/trust/verify')]);
+    const ev = ad.events || [];
+    const c = { ALLOW: 0, WARN: 0, BLOCK: 0 };
+    ev.forEach(e => { if (e.verdict) c[e.verdict] = (c[e.verdict] || 0) + 1; });
+
+    set('ov-tot', ev.length);
+    set('ov-a',   c.ALLOW);
+    set('ov-w',   c.WARN);
+    set('ov-b',   c.BLOCK);
+    set('ov-t',   td.total || 0);
+
+    drawChart(c);
+    renderRecent(ev.slice(-10).reverse());
+  } catch(e) {
+    document.getElementById('rec-body').innerHTML =
+      `<tr><td colspan="6" class="empty">Error: ${x(e.message)}</td></tr>`;
+  }
+}
+
+function drawChart(c) {
+  const svg = document.getElementById('vchart');
+  const W = svg.parentElement.clientWidth - 32;
+  const bars = [
+    { l: 'ALLOW', n: c.ALLOW, col: '#4ec9b0' },
+    { l: 'WARN',  n: c.WARN,  col: '#dcdcaa' },
+    { l: 'BLOCK', n: c.BLOCK, col: '#f44747' },
+  ];
+  const maxN = Math.max(...bars.map(b => b.n), 1);
+  const lw = 46, rh = 28, gap = 4;
+  svg.setAttribute('height', bars.length * (rh + gap));
+  svg.innerHTML = bars.map((b, i) => {
+    const bw = Math.max((b.n / maxN) * (W - lw - 50), 2);
+    const y = i * (rh + gap);
+    return `<text x="0" y="${y+18}" fill="#858585" font-size="10" font-family="sans-serif">${b.l}</text>
+<rect x="${lw}" y="${y+2}" width="${bw}" height="${rh-2}" rx="2" fill="${b.col}" opacity=".85"/>
+<text x="${lw+bw+6}" y="${y+18}" fill="${b.col}" font-size="11" font-family="sans-serif">${b.n}</text>`;
+  }).join('\n');
+}
+
+function renderRecent(ev) {
+  const tb = document.getElementById('rec-body');
+  if (!ev.length) { tb.innerHTML = '<tr><td colspan="6" class="empty">No scan records yet.</td></tr>'; return; }
+  tb.innerHTML = ev.map(e => `<tr>
+    <td><code>${ft(e.ts)}</code></td>
+    <td><code>${x(e.package||'')}</code></td>
+    <td>${vb(e.verdict)}</td>
+    <td>${e.score != null ? e.score.toFixed(1) : '—'}</td>
+    <td>${(e.signals||[]).map(s=>`<span class="ft">${x(s)}</span>`).join('')}</td>
+    <td>${e.cached?'✓':''}</td>
+  </tr>`).join('');
+}
+
+// ── Audit ─────────────────────────────────────────────────────────────────
+async function loadAudit() {
+  const v = document.getElementById('af-v').value;
+  const p = document.getElementById('af-p').value.trim();
+  const s = document.getElementById('af-s').value;
+  const l = document.getElementById('af-l').value;
+  let qs = `?last=${l}`;
+  if (v) qs += `&verdict=${v}`;
+  if (p) qs += `&package=${encodeURIComponent(p)}`;
+  if (s) qs += `&since=${encodeURIComponent(s+'T00:00:00+00:00')}`;
+
+  const tb = document.getElementById('aud-body');
+  tb.innerHTML = '<tr><td colspan="7" class="empty"><span class="spin"></span>Loading…</td></tr>';
+  try {
+    const d = await api('GET', '/audit' + qs);
+    const ev = (d.events || []).slice().reverse();
+    if (!ev.length) { tb.innerHTML = '<tr><td colspan="7" class="empty">No records match.</td></tr>'; return; }
+    tb.innerHTML = ev.map(e => `<tr>
+      <td><code>${ft(e.ts)}</code></td>
+      <td><code>${x(e.package||'')}</code></td>
+      <td>${vb(e.verdict)}</td>
+      <td>${e.score != null ? e.score.toFixed(1) : '—'}</td>
+      <td>${(e.signals||[]).map(s=>`<span class="ft">${x(s)}</span>`).join('')}</td>
+      <td>${e.ai_suggested?'✓':''}</td>
+      <td>${e.cached?'✓':''}</td>
+    </tr>`).join('');
+  } catch(e) {
+    tb.innerHTML = `<tr><td colspan="7" class="empty">Error: ${x(e.message)}</td></tr>`;
+  }
+}
+
+function clearAudit() {
+  ['af-v','af-p','af-s'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('af-l').value = '100';
+  document.getElementById('aud-body').innerHTML =
+    '<tr><td colspan="7" class="empty">Filters cleared.</td></tr>';
+}
+
+// ── Trust ─────────────────────────────────────────────────────────────────
+async function loadTrust() {
+  const tb = document.getElementById('tr-body');
+  tb.innerHTML = '<tr><td colspan="5" class="empty"><span class="spin"></span>Loading…</td></tr>';
+  try {
+    const d = await api('GET', '/trust/verify');
+    set('tr-sum', `Total: ${d.total} · Verified: ${d.verified} · Legacy: ${d.legacy_no_mac} · Tampered: ${d.tampered}`);
+    const rows = d.entries || [];
+    if (!rows.length) { tb.innerHTML = '<tr><td colspan="5" class="empty">No trusted packages.</td></tr>'; return; }
+    tb.innerHTML = rows.map(r => {
+      const cls = r.mac_status === 'ok' ? 'mac-ok' : r.mac_status === 'tampered' ? 'mac-bad' : 'mac-leg';
+      return `<tr>
+        <td><code>${x(r.package_name)}</code></td>
+        <td><code>${ft(r.added_at ? new Date(r.added_at*1000).toISOString() : '')}</code></td>
+        <td>${x(r.source||'')}</td>
+        <td class="${cls}">${x(r.mac_status||'')}</td>
+        <td class="${cls}">${x(r.verification||'')}</td>
+      </tr>`;
+    }).join('');
+  } catch(e) {
+    tb.innerHTML = `<tr><td colspan="5" class="empty">Error: ${x(e.message)}</td></tr>`;
+  }
+}
+
+async function addTrust() {
+  const pkg = document.getElementById('tr-pkg').value.trim();
+  if (!pkg) { flash('tr-msg', 'Package name required.', false); return; }
+  try {
+    await api('POST', '/trust', { package_name: pkg });
+    flash('tr-msg', `'${x(pkg)}' added to trust list.`, true);
+    document.getElementById('tr-pkg').value = '';
+    loadTrust();
+  } catch(e) { flash('tr-msg', e.message, false); }
+}
+
+// ── Scan ──────────────────────────────────────────────────────────────────
+async function runScan() {
+  const pkg  = document.getElementById('sc-pkg').value.trim();
+  const ver  = document.getElementById('sc-ver').value.trim();
+  const path = document.getElementById('sc-path').value.trim();
+  const ai   = document.getElementById('sc-ai').checked;
+  const out  = document.getElementById('sc-out');
+  const btn  = document.getElementById('sc-btn');
+
+  if (!pkg || !path) {
+    out.innerHTML = '<div class="msg me">Package name and project path are required.</div>';
+    return;
+  }
+  out.innerHTML = '<div class="msg" style="color:var(--dim)"><span class="spin"></span>Scanning… (1–2 min on first run while model loads)</div>';
+  btn.disabled = true;
+  try {
+    const body = { package_name: pkg, project_path: path, ai_suggested: ai };
+    if (ver) body.version = ver;
+    const r = await api('POST', '/scan', body);
+    btn.disabled = false;
+    renderScan(r, out);
+  } catch(e) {
+    btn.disabled = false;
+    out.innerHTML = `<div class="msg me">Error: ${x(e.message)}</div>`;
+  }
+}
+
+function renderScan(r, el) {
+  const cols = { ALLOW: 'var(--allow)', WARN: 'var(--warn)', BLOCK: 'var(--block)' };
+  const col  = cols[r.decision] || 'var(--text)';
+  const pillars = [
+    { n: 'Contextify', d: r.contextify },
+    { n: 'Sentinel',   d: r.sentinel   },
+    { n: 'Shield',     d: r.shield     },
+  ];
+  el.innerHTML = `
+<div class="sr">
+  <div class="pkg"><code>${x(r.package_name)}${r.version ? '@'+x(r.version) : ''}</code></div>
+  <div class="mr">
+    <span style="font-size:22px;font-weight:700;color:${col}">${r.decision}</span>
+    <span>Risk: <strong>${r.risk_score.toFixed(1)}</strong>/100</span>
+    <span style="color:var(--dim)">${r.latency_ms.toFixed(0)} ms</span>
+    ${r.cached ? '<span style="color:var(--dim)">● cached</span>' : ''}
+    ${r.requires_confirmation ? '<span style="color:var(--warn)">⚠ requires confirmation</span>' : ''}
+  </div>
+  <div class="ex">${x(r.explanation)}</div>
+  <div class="ps">
+    ${pillars.map(p => `<div class="pillar">
+      <div class="pn">${p.n}</div>
+      <div class="pv">${p.d.score.toFixed(1)}</div>
+      <div class="pf">${p.d.flags.length
+        ? p.d.flags.map(f=>`<span class="ft">${x(f)}</span>`).join('')
+        : '<span style="opacity:.5">no flags</span>'}</div>
+    </div>`).join('')}
+  </div>
+  ${r.policy_file ? `<div style="margin-top:10px;font-size:11px;color:var(--dim)">Policy: <code>${x(r.policy_file)}</code></div>` : ''}
+  <details><summary>Raw JSON</summary><div class="raw">${x(JSON.stringify(r, null, 2))}</div></details>
+</div>`;
+}
+
+// ── Cache ─────────────────────────────────────────────────────────────────
+async function purgeCache() {
+  try {
+    const r = await api('DELETE', '/cache');
+    flash('pu-msg', `Purged ${r.purged} expired entr${r.purged===1?'y':'ies'}.`, true);
+  } catch(e) { flash('pu-msg', e.message, false); }
+}
+
+async function invalidate() {
+  const pkg = document.getElementById('iv-pkg').value.trim();
+  const ver = document.getElementById('iv-ver').value.trim();
+  if (!pkg || !ver) { flash('iv-msg', 'Package and version required.', false); return; }
+  try {
+    const r = await api('POST', '/cache/invalidate', { package_name: pkg, version: ver });
+    flash('iv-msg', `Invalidated ${r.invalidated} entr${r.invalidated===1?'y':'ies'} for ${x(pkg)}@${x(ver)}.`, true);
+  } catch(e) { flash('iv-msg', e.message, false); }
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────
+function x(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function set(id, v) { const e = document.getElementById(id); if (e) e.textContent = v; }
+
+function ft(ts) {
+  if (!ts) return '—';
+  try { const d = new Date(ts); return d.toLocaleString(undefined, {month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}); }
+  catch { return ts; }
+}
+
+function vb(v) {
+  const m = { ALLOW: 'vA', WARN: 'vW', BLOCK: 'vB' };
+  return v ? `<span class="vb ${m[v]||''}">${v}</span>` : '—';
+}
+
+function flash(id, text, ok) {
+  if (!id) return;
+  const e = document.getElementById(id);
+  if (!e) return;
+  e.className = 'msg ' + (ok ? 'mo' : 'me');
+  e.innerHTML = x(text);
+  setTimeout(() => { e.textContent = ''; e.className = ''; }, 5000);
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────
+(function() {
+  const saved = tok();
+  if (saved) document.getElementById('tok').value = saved;
+  checkHealth();
+  setInterval(checkHealth, 30000);
+  loadOverview();
+})();
+</script>
+</body>
+</html>
